@@ -1,0 +1,85 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <algorithm>
+ 
+// Constants
+const int NUM_BIO_STREAM_CLASSES = 3;
+const int NUM_MATH_STREAM_CLASSES = 5;
+const int STUDENTS_PER_CLASS = 40;
+const int NUM_SUBJECTS = 3; // Number of subjects for both streams
+ 
+// Structure to represent a student
+struct Student {
+    std::string stream;
+    int rollNumber;
+    std::string name;
+    int marks[NUM_SUBJECTS];
+    int totalMarks;
+    int schoolRank;
+    int classRank;
+};
+ 
+// Function prototypes
+void inputStudentData(std::vector<Student>& students);
+void saveStudentData(const std::vector<Student>& students, const std::string& filename);
+void loadStudentData(std::vector<Student>& students, const std::string& filename);
+void calculateRanks(std::vector<Student>& students);
+void printResults(const std::vector<Student>& students);
+ 
+int main() {
+    std::vector<Student> students;
+ 
+    // Input student data
+    inputStudentData(students);
+ 
+    // Save student data to a file
+    saveStudentData(students, "student_data.txt");
+ 
+    // Load student data from the file
+    loadStudentData(students, "student_data.txt");
+ 
+    // Calculate ranks
+    calculateRanks(students);
+ 
+    // Print results
+    printResults(students);
+ 
+    return 0;
+}
+ 
+void inputStudentData(std::vector<Student>& students) {
+    for (int i = 0; i < NUM_BIO_STREAM_CLASSES; ++i) {
+        for (int j = 0; j < STUDENTS_PER_CLASS; ++j) {
+            Student student;
+            student.stream = "Bioscience";
+            student.rollNumber = i * STUDENTS_PER_CLASS + j + 1; // Unique roll number
+            std::cout << "Enter details for Bioscience stream student " << student.rollNumber << ":\n";
+            std::cout << "Name: ";
+            std::getline(std::cin, student.name);
+ 
+            std::cout << "Enter marks for Biology, Physics, and Chemistry: ";
+            for (int k = 0; k < NUM_SUBJECTS; ++k) {
+                std::cin >> student.marks[k];
+            }
+ 
+            students.push_back(student);
+            std::cin.ignore(); // Ignore the newline character in the input buffer
+        }
+    }
+ 
+    for (int i = 0; i < NUM_MATH_STREAM_CLASSES; ++i) {
+        for (int j = 0; j < STUDENTS_PER_CLASS; ++j) {
+            Student student;
+            student.stream = "Mathematics";
+            student.rollNumber = (NUM_BIO_STREAM_CLASSES + i) * STUDENTS_PER_CLASS + j + 1; // Unique roll number
+            std::cout << "Enter details for Mathematics stream student " << student.rollNumber << ":\n";
+            std::cout << "Name: ";
+            std::getline(std::cin, student.name);
+ 
+            std::cout << "Enter marks for Combined Maths, Physics, and Chemistry: ";
+            for (int k = 0; k < NUM_SUBJECTS; ++k) {
+                std::cin >> student.marks[k];
+            }
+ 
+            students
